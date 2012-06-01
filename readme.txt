@@ -4,7 +4,7 @@ Donate link: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux
 Tags: link, redirect, external link, permalink
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 
 Allows you to point WordPress objects (posts, pages, custom post types) to a URL of your choosing.
 
@@ -31,8 +31,14 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 = What other filters does this plugin include? =
 * `epr_meta_key_target` - modify the meta key associated with the external URL
 * `epr_meta_key_type` - modify the meta key associated with the redirect type
+* `epr_status_codes` - modify array of available status codes used when redirect is issued
 
 == Changelog ==
+
+= 1.0.2 =
+* Add status codes filter. Thanks [danielbachhuber](http://wordpress.org/support/topic/plugin-external-permalinks-redux-support-custom-status-codes).
+* Correct translation string implementation, removing variable name.
+* Miscellaneous cleanup, such as whitespace removal.
 
 = 1.0.1 =
 * Add shortcut function for registering meta box on custom post types. This is included as an alternative to the `epr_post_types` filter discussed in the FAQ.

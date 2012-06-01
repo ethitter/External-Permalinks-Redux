@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: External Permalinks Redux
-Plugin URI: 
+Plugin URI: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux/
 Description: Allows users to point WordPress objects (posts, pages, custom post types) to a URL of your choosing. Inspired by and backwards-compatible with <a href="http://txfx.net/wordpress-plugins/page-links-to/">Page Links To</a> by Mark Jaquith. Written for use on WordPress.com VIP.
-Version: 1.0.1
+Version: 1.0.2
 Author: Erick Hitter (Oomph, Inc.)
 Author URI: http://www.thinkoomph.com/
 */
@@ -12,12 +12,10 @@ class external_permalinks_redux {
 	/*
 	 * Class variables
 	 */
-	var $ns = 'epr';
-	
 	var $meta_key_target;
 	var $meta_key_type;
 	var $status_codes;
-	
+
 	/*
 	 * Register actions and filters
 	 * @uses add_action, add_filter
@@ -27,7 +25,7 @@ class external_permalinks_redux {
 		add_action( 'init', array( $this, 'action_init' ) );
 		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
 		add_action( 'save_post', array( $this, 'action_save_post' ) );
-		
+
 		add_filter( 'post_link', array( $this, 'filter_post_permalink' ), 1, 2 );
 		add_filter( 'post_type_link', array( $this, 'filter_post_permalink' ), 1, 2 );
 		add_filter( 'page_link', array( $this, 'filter_page_link' ), 1, 2 );
@@ -36,18 +34,22 @@ class external_permalinks_redux {
 
 	/**
 	 * Register plugin keys and status codes
+	 *
+	 * @uses apply_filters
+	 * @action init
+	 * @return null
 	 */
 	function action_init() {
-
 		$this->meta_key_target = apply_filters( 'epr_meta_key_target', '_links_to' );
 		$this->meta_key_type = apply_filters( 'epr_meta_key_type', '_links_to_type' );
+
 		$status_codes = array(
-				302 => __( 'Temporary (302)', 'external-permalinks-redux' ),
-				301 => __( 'Permanent (301)', 'external-permalinks-redux' ),
-			);
+			302 => __( 'Temporary (302)', 'external-permalinks-redux' ),
+			301 => __( 'Permanent (301)', 'external-permalinks-redux' ),
+		);
 		$this->status_codes = apply_filters( 'epr_status_codes', $status_codes );
 	}
-	
+
 	/*
 	 * Add meta box
 	 * @uses apply_filters, add_meta_box
@@ -56,15 +58,15 @@ class external_permalinks_redux {
 	 */
 	function action_admin_init() {
 		$post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
-		
+
 		if( !is_array( $post_types ) )
 			return;
-		
+
 		foreach( $post_types as $post_type )
-			add_meta_box( 'external-permalinks-redux', 'External Permalinks Redux', array( $this, 'meta_box' ), $post_type, 'normal' );
+			add_meta_box( 'external-permalinks-redux', __( 'External Permalinks Redux', 'external-permalinks-redux' ), array( $this, 'meta_box' ), $post_type, 'normal' );
 	}
-	
-	
+
+
 	/*
 	 * Render meta box
 	 * @param object $post
@@ -75,16 +77,16 @@ class external_permalinks_redux {
 		$type = get_post_meta( $post->ID, $this->meta_key_type, true );
 	?>
 		<p>
-			<label for="epr-url"><?php _e( 'Destination Address:', $this->ns ); ?></label><br />
+			<label for="epr-url"><?php _e( 'Destination Address:', 'external-permalinks-redux' ); ?></label><br />
 			<input name="<?php echo $this->meta_key_target; ?>_url" class="large-text code" id="epr-url" type="text" value="<?php echo esc_url( get_post_meta( $post->ID, $this->meta_key_target, true ) ); ?>" />
 		</p>
-		
-		<p class="description"><?php _e( 'To restore the original permalink, remove the link entered above.', $this->ns ); ?></p>
-		
+
+		<p class="description"><?php _e( 'To restore the original permalink, remove the link entered above.', 'external-permalinks-redux' ); ?></p>
+
 		<p>&nbsp;</p>
-		
+
 		<p>
-			<label for="epr-type"><?php _e( 'Redirect Type:', $this->ns ); ?></label>
+			<label for="epr-type"><?php _e( 'Redirect Type:', 'external-permalinks-redux' ); ?></label>
 			<select name="<?php echo $this->meta_key_target; ?>_type" id="epr-type">
 				<option value=""><?php _e( '-- Select --', 'external-permalinks-redux' ); ?></option>
 				<?php foreach ( $this->status_codes as $status_code => $explanation ) {
@@ -94,11 +96,11 @@ class external_permalinks_redux {
 				} ?>
 			</select>
 		</p>
-		
+
 		<input type="hidden" name="<?php echo $this->meta_key_target; ?>_nonce" value="<?php echo wp_create_nonce( 'external-permalinks-redux' ); ?>" />
 	<?php
 	}
-	
+
 	/*
 	 * Save meta box input
 	 * @param int $post_id
@@ -110,22 +112,22 @@ class external_permalinks_redux {
 		if( isset( $_POST[ $this->meta_key_target . '_nonce' ] ) && wp_verify_nonce( $_POST[ $this->meta_key_target . '_nonce' ], 'external-permalinks-redux' ) ) {
 			//Target
 			$url = esc_url_raw( $_POST[ $this->meta_key_target . '_url' ] );
-			
+
 			if( !empty( $url ) )
 				update_post_meta( $post_id, $this->meta_key_target, $url );
 			else
 				delete_post_meta( $post_id, $this->meta_key_target, $url );
-			
+
 			//Redirect type
 			$type = intval( $_POST[ $this->meta_key_target . '_type' ] );
-			
+
 			if( !empty( $url ) && array_key_exists( $type, $this->status_codes ) )
 				update_post_meta( $post_id, $this->meta_key_type, $type );
 			else
 				delete_post_meta( $post_id, $this->meta_key_type );
 		}
 	}
-	
+
 	/*
 	 * Filter post and custom post type permalinks
 	 * @param string $permalink
@@ -137,10 +139,10 @@ class external_permalinks_redux {
 	function filter_post_permalink( $permalink, $post ) {
 		if( $external_link = get_post_meta( $post->ID, $this->meta_key_target, true ) )
 			$permalink = $external_link;
-		
+
 		return $permalink;
 	}
-	
+
 	/*
 	 * Filter page permalinks
 	 * @param string $link
@@ -152,10 +154,10 @@ class external_permalinks_redux {
 	function filter_page_link( $link, $id ) {
 		if( $external_link = get_post_meta( $id, $this->meta_key_target, true ) )
 			$link = $external_link;
-	
-		return $link;	
+
+		return $link;
 	}
-	
+
 	/*
 	 * Redirect to external link if object requested directly.
 	 * @uses get_post_meta, wp_redirect
@@ -164,12 +166,12 @@ class external_permalinks_redux {
 	 */
 	function action_wp() {
 		global $post;
-		
+
 		if( is_singular() && ( $link = get_post_meta( $post->ID, $this->meta_key_target, true ) ) ) {
 			$type = intval( get_post_meta( $post->ID, $this->meta_key_type, true ) );
 			if( !$type )
 				$type = 302;
-			
+
 			wp_redirect( $link, $type );
 			exit;
 		}
@@ -190,7 +192,7 @@ function external_permalinks_redux_meta_box( $post ) {
 	global $external_permalinks_redux;
 	if( !is_a( $external_permalinks_redux, 'external_permalinks_redux' ) )
 		$external_permalinks_redux = new external_permalinks_redux;
-	
+
 	$external_permalinks_redux->meta_box( $post );
 }
 ?>
