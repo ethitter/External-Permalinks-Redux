@@ -26,9 +26,17 @@ class external_permalinks_redux {
 	/*
 	 * Class variables
 	 */
+	protected static $instance;
+
 	var $meta_key_target = '_links_to';
 	var $meta_key_type = '_links_to_type';
 	var $status_codes;
+
+	static function get_instance() {
+		if ( ! isset( self::$instance ) )
+			self::$instance = new external_permalinks_redux;
+		return self::$instance;
+	}
 
 	/*
 	 * Register actions and filters
@@ -191,9 +199,9 @@ class external_permalinks_redux {
 		}
 	}
 }
-global $external_permalinks_redux;
-if( !is_a( $external_permalinks_redux, 'external_permalinks_redux' ) )
-	$external_permalinks_redux = new external_permalinks_redux;
+
+// Initialize the plugin if it hasn't already
+external_permalinks_redux::get_instance();
 
 /*
  * Wrapper for meta box function
@@ -203,10 +211,6 @@ if( !is_a( $external_permalinks_redux, 'external_permalinks_redux' ) )
  * @return string
  */
 function external_permalinks_redux_meta_box( $post ) {
-	global $external_permalinks_redux;
-	if( !is_a( $external_permalinks_redux, 'external_permalinks_redux' ) )
-		$external_permalinks_redux = new external_permalinks_redux;
-
-	$external_permalinks_redux->meta_box( $post );
+	external_permalinks_redux::get_instance()->meta_box( $post );
 }
 ?>
