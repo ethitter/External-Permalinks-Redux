@@ -3,7 +3,7 @@
 Plugin Name: External Permalinks Redux
 Plugin URI: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux/
 Description: Allows users to point WordPress objects (posts, pages, custom post types) to a URL of your choosing. Inspired by and backwards-compatible with <a href="http://txfx.net/wordpress-plugins/page-links-to/">Page Links To</a> by Mark Jaquith. Written for use on WordPress.com VIP.
-Version: 1.0.3
+Version: 1.0.4
 Author: Erick Hitter (Oomph, Inc.)
 Author URI: http://www.thinkoomph.com/
 

@@ -4,7 +4,7 @@ Donate link: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux
 Tags: link, redirect, external link, permalink
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,9 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 
 == Changelog ==
 
+= 1.0.4 =
+* Implement singleton pattern for instantiation. Thanks batmoo.
+
 = 1.0.3 =
 * Increase priority of `init` action to ensure that the filters it contains are available to other plugins. Thanks batmoo.
 
@@ -53,6 +56,9 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 * Rewrote original WordPress.com VIP plugin into a class and added support for custom post types.
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+Implements singleton pattern for instantiation. No functional changes are included in this release.
 
 = 1.0.3 =
 Ensures that filters are available to plugins and themes. Recommended for anyone trying to hook to those filters.
