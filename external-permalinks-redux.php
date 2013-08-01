@@ -47,7 +47,8 @@ class external_permalinks_redux {
 	/**
 	 * Register actions and filters
 	 *
-	 * @uses add_action, add_filter
+	 * @uses add_action
+	 * @uses add_filter
 	 * @return null
 	 */
 	function __construct() {
@@ -82,7 +83,8 @@ class external_permalinks_redux {
 	/**
 	 * Add meta box
 	 *
-	 * @uses apply_filters, add_meta_box
+	 * @uses apply_filters
+	 * @uses add_meta_box
 	 * @action admin_init
 	 * @return null
 	 */
@@ -101,7 +103,11 @@ class external_permalinks_redux {
 	 * Render meta box
 	 *
 	 * @param object $post
-	 * @uses _e, esc_url, get_post_meta, selected, wp_create_nonce
+	 * @uses _e
+	 * @uses esc_url
+	 * @uses get_post_meta
+	 * @uses selected
+	 * @uses wp_create_nonce
 	 * @return string
 	 */
 	function meta_box( $post ) {
@@ -136,7 +142,10 @@ class external_permalinks_redux {
 	 * Save meta box input
 	 *
 	 * @param int $post_id
-	 * @uses wp_verify_nonce, esc_url_raw, update_post_meta, delete_post_meta
+	 * @uses wp_verify_nonce
+	 * @uses esc_url_raw
+	 * @uses update_post_meta
+	 * @uses delete_post_meta
 	 * @action save_post
 	 * @return null
 	 */
@@ -166,7 +175,8 @@ class external_permalinks_redux {
 	 * @param string $permalink
 	 * @param object $post
 	 * @uses get_post_meta
-	 * @filter post_link, post_type_link
+	 * @filter post_link
+	 * @uses post_type_link
 	 * @return string
 	 */
 	function filter_post_permalink( $permalink, $post ) {
@@ -195,7 +205,8 @@ class external_permalinks_redux {
 	/**
 	 * Redirect to external link if object requested directly.
 	 *
-	 * @uses get_post_meta, wp_redirect
+	 * @uses get_post_meta
+	 * @uses wp_redirect
 	 * @action pre_get_posts
 	 * @return null
 	 */
