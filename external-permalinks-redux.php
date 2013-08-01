@@ -112,11 +112,12 @@ class external_permalinks_redux {
 	 * Render meta box
 	 *
 	 * @param object $post
-	 * @uses _e
-	 * @uses esc_url
 	 * @uses get_post_meta
+	 * @uses _e
+	 * @uses esc_attr
+	 * @uses esc_url
 	 * @uses selected
-	 * @uses wp_create_nonce
+	 * @uses wp_nonce_field
 	 * @return string
 	 */
 	function meta_box( $post ) {
@@ -124,7 +125,7 @@ class external_permalinks_redux {
 	?>
 		<p class="epr-destination">
 			<label for="epr-url"><?php _e( 'Destination Address:', 'external-permalinks-redux' ); ?></label><br />
-			<input name="<?php echo $this->meta_key_target; ?>_url" class="large-text code" id="epr-url" type="text" value="<?php echo esc_url( get_post_meta( $post->ID, $this->meta_key_target, true ) ); ?>" />
+			<input name="<?php echo esc_attr( $this->meta_key_target ); ?>_url" class="large-text code" id="epr-url" type="text" value="<?php echo esc_url( get_post_meta( $post->ID, $this->meta_key_target, true ) ); ?>" />
 		</p>
 
 		<p class="description"><?php _e( 'To restore the original permalink, remove the link entered above.', 'external-permalinks-redux' ); ?></p>
@@ -133,7 +134,7 @@ class external_permalinks_redux {
 
 		<p class="epr-redirect-type">
 			<label for="epr-type"><?php _e( 'Redirect Type:', 'external-permalinks-redux' ); ?></label>
-			<select name="<?php echo $this->meta_key_target; ?>_type" id="epr-type">
+			<select name="<?php echo esc_attr( $this->meta_key_target ); ?>_type" id="epr-type">
 				<option value=""><?php _e( '-- Select --', 'external-permalinks-redux' ); ?></option>
 				<?php foreach ( $this->status_codes as $status_code => $explanation ) {
 					echo '<option value="' . esc_attr( $status_code ) . '"';
@@ -143,8 +144,8 @@ class external_permalinks_redux {
 			</select>
 		</p>
 
-		<input type="hidden" name="<?php echo $this->meta_key_target; ?>_nonce" value="<?php echo wp_create_nonce( 'external-permalinks-redux' ); ?>" />
 	<?php
+		wp_nonce_field( 'external-permalinks-redux', $this->meta_key_target . '_nonce', false );
 	}
 
 	/**
@@ -219,7 +220,7 @@ class external_permalinks_redux {
 	 * @uses get_post_meta
 	 * @uses apply_filters
 	 * @uses wp_redirect
-	 * @action pre_get_posts
+	 * @action wp
 	 * @return null
 	 */
 	function action_wp() {
@@ -244,6 +245,8 @@ class external_permalinks_redux {
 
 	/**
 	 * Action changed and function renamed in v1.1.
+	 *
+	 * @uses this::action_add_meta_boxes
 	 */
 	public function action_admin_init() {
 		$this->action_add_meta_boxes();
@@ -258,7 +261,7 @@ external_permalinks_redux::get_instance();
  * Can be used as an alternative to the epr_post_types filter found in the plugin classes's action_admin_init function.
  *
  * @param object $post
- * @uses $external_permalinks_redux
+ * @uses external_permalinks_redux
  * @return string
  */
 function external_permalinks_redux_meta_box( $post ) {
