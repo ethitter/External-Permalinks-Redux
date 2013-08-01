@@ -53,7 +53,7 @@ class external_permalinks_redux {
 	 */
 	function __construct() {
 		add_action( 'init', array( $this, 'action_init' ), 0 ); // other init actions may rely on permalinks so filter early
-		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
+		add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'action_save_post' ) );
 
 		add_filter( 'post_link', array( $this, 'filter_post_permalink' ), 1, 2 );
@@ -84,18 +84,26 @@ class external_permalinks_redux {
 	 * Add meta box
 	 *
 	 * @uses apply_filters
+	 * @uses __
 	 * @uses add_meta_box
-	 * @action admin_init
+	 * @action add_meta_boxes
 	 * @return null
 	 */
-	function action_admin_init() {
+	function action_add_meta_boxes() {
 		$post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
 
 		if ( ! is_array( $post_types ) )
 			return;
 
 		foreach( $post_types as $post_type ) {
-			add_meta_box( 'external-permalinks-redux', __( 'External Permalinks Redux', 'external-permalinks-redux' ), array( $this, 'meta_box' ), $post_type, 'normal' );
+			$title  = apply_filters( 'epr_metabox_title', '', $post_type );
+
+			if ( ! $title )
+				$title = __( 'External Permalinks Redux', 'external-permalinks-redux' );
+
+			add_meta_box( 'external-permalinks-redux', $title, array( $this, 'meta_box' ), $post_type, 'normal' );
+
+			unset( $title );
 		}
 	}
 
@@ -227,6 +235,18 @@ class external_permalinks_redux {
 			wp_redirect( $link, $type );
 			exit;
 		}
+	}
+
+	/**
+	 ** BACKWARDS COMPATIBILITY
+	 ** FUNCTIONS FOUNDS BELOW ARE DEPRECATED
+	 **/
+
+	/**
+	 * Action changed and function renamed in v1.1.
+	 */
+	public function action_admin_init() {
+		$this->action_add_meta_boxes();
 	}
 }
 
