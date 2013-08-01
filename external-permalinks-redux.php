@@ -89,7 +89,7 @@ class external_permalinks_redux {
 	function action_admin_init() {
 		$post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
 
-		if( !is_array( $post_types ) )
+		if( ! is_array( $post_types ) )
 			return;
 
 		foreach( $post_types as $post_type )
@@ -145,7 +145,7 @@ class external_permalinks_redux {
 			//Target
 			$url = esc_url_raw( $_POST[ $this->meta_key_target . '_url' ] );
 
-			if( !empty( $url ) )
+			if( ! empty( $url ) )
 				update_post_meta( $post_id, $this->meta_key_target, $url );
 			else
 				delete_post_meta( $post_id, $this->meta_key_target, $url );
@@ -153,7 +153,7 @@ class external_permalinks_redux {
 			//Redirect type
 			$type = intval( $_POST[ $this->meta_key_target . '_type' ] );
 
-			if( !empty( $url ) && array_key_exists( $type, $this->status_codes ) )
+			if( ! empty( $url ) && array_key_exists( $type, $this->status_codes ) )
 				update_post_meta( $post_id, $this->meta_key_type, $type );
 			else
 				delete_post_meta( $post_id, $this->meta_key_type );
@@ -204,7 +204,7 @@ class external_permalinks_redux {
 
 		if( is_singular() && ( $link = get_post_meta( $post->ID, $this->meta_key_target, true ) ) ) {
 			$type = intval( get_post_meta( $post->ID, $this->meta_key_type, true ) );
-			if( !$type )
+			if( ! $type )
 				$type = 302;
 
 			wp_redirect( $link, $type );
