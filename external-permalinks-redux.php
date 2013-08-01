@@ -39,7 +39,7 @@ class external_permalinks_redux {
 	 */
 	static function get_instance() {
 		if ( ! isset( self::$instance ) )
-			self::$instance = new external_permalinks_redux;
+			self::$instance = new self;
 
 		return self::$instance;
 	}
@@ -51,7 +51,7 @@ class external_permalinks_redux {
 	 * @uses add_filter
 	 * @return null
 	 */
-	function __construct() {
+	private function __construct() {
 		add_action( 'init', array( $this, 'action_init' ), 0 ); // other init actions may rely on permalinks so filter early
 		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
 		add_action( 'save_post', array( $this, 'action_save_post' ) );
