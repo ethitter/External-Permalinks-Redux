@@ -253,4 +253,3 @@ external_permalinks_redux::get_instance();
 function external_permalinks_redux_meta_box( $post ) {
 	external_permalinks_redux::get_instance()->meta_box( $post );
 }
-?>
