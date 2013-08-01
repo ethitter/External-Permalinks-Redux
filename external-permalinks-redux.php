@@ -91,11 +91,12 @@ class external_permalinks_redux {
 	function action_admin_init() {
 		$post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
 
-		if( ! is_array( $post_types ) )
+		if ( ! is_array( $post_types ) )
 			return;
 
-		foreach( $post_types as $post_type )
+		foreach( $post_types as $post_type ) {
 			add_meta_box( 'external-permalinks-redux', __( 'External Permalinks Redux', 'external-permalinks-redux' ), array( $this, 'meta_box' ), $post_type, 'normal' );
+		}
 	}
 
 
@@ -150,11 +151,11 @@ class external_permalinks_redux {
 	 * @return null
 	 */
 	function action_save_post( $post_id ) {
-		if( isset( $_POST[ $this->meta_key_target . '_nonce' ] ) && wp_verify_nonce( $_POST[ $this->meta_key_target . '_nonce' ], 'external-permalinks-redux' ) ) {
+		if ( isset( $_POST[ $this->meta_key_target . '_nonce' ] ) && wp_verify_nonce( $_POST[ $this->meta_key_target . '_nonce' ], 'external-permalinks-redux' ) ) {
 			//Target
 			$url = esc_url_raw( $_POST[ $this->meta_key_target . '_url' ] );
 
-			if( ! empty( $url ) )
+			if ( ! empty( $url ) )
 				update_post_meta( $post_id, $this->meta_key_target, $url );
 			else
 				delete_post_meta( $post_id, $this->meta_key_target, $url );
@@ -162,7 +163,7 @@ class external_permalinks_redux {
 			//Redirect type
 			$type = intval( $_POST[ $this->meta_key_target . '_type' ] );
 
-			if( ! empty( $url ) && array_key_exists( $type, $this->status_codes ) )
+			if ( ! empty( $url ) && array_key_exists( $type, $this->status_codes ) )
 				update_post_meta( $post_id, $this->meta_key_type, $type );
 			else
 				delete_post_meta( $post_id, $this->meta_key_type );
@@ -180,7 +181,7 @@ class external_permalinks_redux {
 	 * @return string
 	 */
 	function filter_post_permalink( $permalink, $post ) {
-		if( $external_link = get_post_meta( $post->ID, $this->meta_key_target, true ) )
+		if ( $external_link = get_post_meta( $post->ID, $this->meta_key_target, true ) )
 			$permalink = $external_link;
 
 		return $permalink;
@@ -196,7 +197,7 @@ class external_permalinks_redux {
 	 * @return string
 	 */
 	function filter_page_link( $link, $id ) {
-		if( $external_link = get_post_meta( $id, $this->meta_key_target, true ) )
+		if ( $external_link = get_post_meta( $id, $this->meta_key_target, true ) )
 			$link = $external_link;
 
 		return $link;
@@ -216,11 +217,11 @@ class external_permalinks_redux {
 	function action_wp() {
 		global $post;
 
-		if( is_singular() && ( $link = get_post_meta( $post->ID, $this->meta_key_target, true ) ) ) {
+		if ( is_singular() && ( $link = get_post_meta( $post->ID, $this->meta_key_target, true ) ) ) {
 			$type = intval( get_post_meta( $post->ID, $this->meta_key_type, true ) );
 			$type = apply_filters( 'epr_status_code', $type, $link, $post );
 
-			if( ! $type )
+			if ( ! $type )
 				$type = 302;
 
 			wp_redirect( $link, $type );
