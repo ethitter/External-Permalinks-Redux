@@ -205,7 +205,10 @@ class external_permalinks_redux {
 	/**
 	 * Redirect to external link if object requested directly.
 	 *
+	 * @global $post
+	 * @uses is_singular
 	 * @uses get_post_meta
+	 * @uses apply_filters
 	 * @uses wp_redirect
 	 * @action pre_get_posts
 	 * @return null
