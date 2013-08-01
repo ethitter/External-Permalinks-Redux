@@ -107,16 +107,16 @@ class external_permalinks_redux {
 	function meta_box( $post ) {
 		$type = get_post_meta( $post->ID, $this->meta_key_type, true );
 	?>
-		<p>
+		<p class="epr-destination">
 			<label for="epr-url"><?php _e( 'Destination Address:', 'external-permalinks-redux' ); ?></label><br />
 			<input name="<?php echo $this->meta_key_target; ?>_url" class="large-text code" id="epr-url" type="text" value="<?php echo esc_url( get_post_meta( $post->ID, $this->meta_key_target, true ) ); ?>" />
 		</p>
 
 		<p class="description"><?php _e( 'To restore the original permalink, remove the link entered above.', 'external-permalinks-redux' ); ?></p>
 
-		<p>&nbsp;</p>
+		<p class="epr-separator">&nbsp;</p>
 
-		<p>
+		<p class="epr-redirect-type">
 			<label for="epr-type"><?php _e( 'Redirect Type:', 'external-permalinks-redux' ); ?></label>
 			<select name="<?php echo $this->meta_key_target; ?>_type" id="epr-type">
 				<option value=""><?php _e( '-- Select --', 'external-permalinks-redux' ); ?></option>
