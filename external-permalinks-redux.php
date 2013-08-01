@@ -53,7 +53,7 @@ class external_permalinks_redux {
 	 */
 	function __construct() {
 		add_action( 'init', array( $this, 'action_init' ), 0 ); // other init actions may rely on permalinks so filter early
-		add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
+		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
 		add_action( 'save_post', array( $this, 'action_save_post' ) );
 
 		add_filter( 'post_link', array( $this, 'filter_post_permalink' ), 1, 2 );
@@ -86,10 +86,10 @@ class external_permalinks_redux {
 	 * @uses apply_filters
 	 * @uses __
 	 * @uses add_meta_box
-	 * @action add_meta_boxes
+	 * @action admin_init
 	 * @return null
 	 */
-	function action_add_meta_boxes() {
+	function action_admin_init() {
 		$post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
 
 		if ( ! is_array( $post_types ) )
@@ -236,20 +236,6 @@ class external_permalinks_redux {
 			wp_redirect( $link, $type );
 			exit;
 		}
-	}
-
-	/**
-	 ** BACKWARDS COMPATIBILITY
-	 ** FUNCTIONS FOUNDS BELOW ARE DEPRECATED
-	 **/
-
-	/**
-	 * Action changed and function renamed in v1.1.
-	 *
-	 * @uses this::action_add_meta_boxes
-	 */
-	public function action_admin_init() {
-		$this->action_add_meta_boxes();
 	}
 }
 
