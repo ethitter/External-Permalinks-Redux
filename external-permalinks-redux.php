@@ -204,6 +204,8 @@ class external_permalinks_redux {
 
 		if( is_singular() && ( $link = get_post_meta( $post->ID, $this->meta_key_target, true ) ) ) {
 			$type = intval( get_post_meta( $post->ID, $this->meta_key_type, true ) );
+			$type = apply_filters( 'epr_status_code', $type, $link, $post );
+
 			if( ! $type )
 				$type = 302;
 
