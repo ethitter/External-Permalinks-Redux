@@ -133,18 +133,18 @@ class external_permalinks_redux {
 		$type = get_post_meta( $post->ID, $this->meta_key_type, true );
 		?>
 		<p class="epr-destination">
-			<label for="epr-url"><?php _e( 'Destination Address:', 'external-permalinks-redux' ); ?></label><br />
+			<label for="epr-url"><?php esc_html_e( 'Destination Address:', 'external-permalinks-redux' ); ?></label><br />
 			<input name="<?php echo esc_attr( $this->meta_key_target ); ?>_url" class="large-text code" id="epr-url" type="text" value="<?php echo esc_url( get_post_meta( $post->ID, $this->meta_key_target, true ) ); ?>" />
 		</p>
 
-		<p class="description"><?php _e( 'To restore the original permalink, remove the link entered above.', 'external-permalinks-redux' ); ?></p>
+		<p class="description"><?php esc_html_e( 'To restore the original permalink, remove the link entered above.', 'external-permalinks-redux' ); ?></p>
 
 		<p class="epr-separator">&nbsp;</p>
 
 		<p class="epr-redirect-type">
-			<label for="epr-type"><?php _e( 'Redirect Type:', 'external-permalinks-redux' ); ?></label>
+			<label for="epr-type"><?php esc_html_e( 'Redirect Type:', 'external-permalinks-redux' ); ?></label>
 			<select name="<?php echo esc_attr( $this->meta_key_target ); ?>_type" id="epr-type">
-				<option value=""><?php _e( '-- Select --', 'external-permalinks-redux' ); ?></option>
+				<option value=""><?php esc_html_e( '-- Select --', 'external-permalinks-redux' ); ?></option>
 				<?php
 				foreach ( $this->status_codes as $status_code => $explanation ) {
 					echo '<option value="' . esc_attr( $status_code ) . '"';
@@ -165,7 +165,7 @@ class external_permalinks_redux {
 	 * @param int $post_id Post ID.
 	 */
 	public function action_save_post( $post_id ) {
-		if ( isset( $_POST[ $this->meta_key_target . '_nonce' ] ) && wp_verify_nonce( sanitize_text_field( stripslashes_deep( $_POST[ $this->meta_key_target . '_nonce' ] ) ), 'external-permalinks-redux' ) ) {
+		if ( isset( $_POST[ $this->meta_key_target . '_nonce' ] ) && wp_verify_nonce( sanitize_text_field( $_POST[ $this->meta_key_target . '_nonce' ] ), 'external-permalinks-redux' ) ) {
 			// Target.
 			$url = isset( $_POST[ $this->meta_key_target . '_url' ] ) ? esc_url_raw( $_POST[ $this->meta_key_target . '_url' ] ) : '';
 
