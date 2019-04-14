@@ -34,7 +34,6 @@ PHPunit:PHP7.3:MySQL:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
     - phpcs -n
     - phpunit
-  allow_failure: true
 
 PluginSVN:
   stage: deploy
