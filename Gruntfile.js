@@ -9,7 +9,7 @@ module.exports = function( grunt ) {
 
 		addtextdomain: {
 			options: {
-				textdomain: 'external_permalinks_redux',
+				textdomain: 'external-permalinks-redux',
 			},
 			update_all_domains: {
 				options: {
