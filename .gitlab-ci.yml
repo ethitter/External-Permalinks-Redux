@@ -1,0 +1,46 @@
+variables:
+  # Configure mysql service (https://hub.docker.com/_/mysql/)
+  MYSQL_DATABASE: wordpress_tests
+  MYSQL_ROOT_PASSWORD: mysql
+
+cache:
+  paths:
+    - $HOME/.composer
+    - /root/.composer
+
+before_script:
+  # Set up WordPress tests
+  - bash bin/install-wp-tests.sh $MYSQL_DATABASE root $MYSQL_ROOT_PASSWORD mysql latest true
+
+  # PHPUnit
+  - |
+    if [[ $(php -v) =~ "PHP 7." ]]; then
+      composer global require "phpunit/phpunit=6.1.*"
+    else
+      composer global require "phpunit/phpunit=4.8.*"
+    fi
+
+  # Install PHPCS and WPCS
+  - composer global require automattic/vipwpcs
+  - composer global require phpcompatibility/phpcompatibility-wp
+  - phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs,$HOME/.composer/vendor/automattic/vipwpcs,$HOME/.composer/vendor/phpcompatibility/php-compatibility,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-paragonie,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-wp
+
+PHPunit:PHP7.3:MySQL:
+  stage: test
+  image: containers.ethitter.com:443/docker/images/php:7.3
+  services:
+    - mysql:5.6
+  script:
+    - find . -type "f" -iname "*.php" | xargs -L "1" php -l
+    - phpcs -n
+    - phpunit
+  allow_failure: true
+
+PluginSVN:
+  stage: deploy
+  image: containers.ethitter.com:443/docker/images/php:7.3
+  before_script:
+    - curl -o ./bin/deploy.sh https://git-cdn.e15r.co/open-source/wp-org-plugin-deploy/raw/master/scripts/deploy.sh
+    - chmod +x ./bin/deploy.sh
+  script: ./bin/deploy.sh
+  when: on_success
