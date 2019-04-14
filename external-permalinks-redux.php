@@ -148,7 +148,7 @@ class external_permalinks_redux {
 				<?php
 				foreach ( $this->status_codes as $status_code => $explanation ) {
 					echo '<option value="' . esc_attr( $status_code ) . '"';
-					echo selected( $status_code, intval( $type ) );
+					selected( $status_code, (int) $type );
 					echo '>' . esc_attr( $explanation ) . '</option>';
 				}
 				?>
@@ -156,8 +156,7 @@ class external_permalinks_redux {
 		</p>
 
 		<?php
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo wp_nonce_field( 'external-permalinks-redux', $this->meta_key_target . '_nonce', false );
+		wp_nonce_field( 'external-permalinks-redux', $this->meta_key_target . '_nonce', false );
 	}
 
 	/**
