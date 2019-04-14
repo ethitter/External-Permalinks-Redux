@@ -29,7 +29,7 @@ class external_permalinks_redux {
 	protected static $instance;
 
 	var $meta_key_target = '_links_to';
-	var $meta_key_type = '_links_to_type';
+	var $meta_key_type   = '_links_to_type';
 	var $status_codes;
 
 	/**
@@ -38,8 +38,9 @@ class external_permalinks_redux {
 	 * @return object
 	 */
 	static function get_instance() {
-		if ( ! isset( self::$instance ) )
-			self::$instance = new self;
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
 
 		return self::$instance;
 	}
@@ -71,9 +72,9 @@ class external_permalinks_redux {
 	 */
 	function action_init() {
 		$this->meta_key_target = apply_filters( 'epr_meta_key_target', $this->meta_key_target );
-		$this->meta_key_type = apply_filters( 'epr_meta_key_type', $this->meta_key_type );
+		$this->meta_key_type   = apply_filters( 'epr_meta_key_type', $this->meta_key_type );
 
-		$status_codes = array(
+		$status_codes       = array(
 			302 => __( 'Temporary (302)', 'external-permalinks-redux' ),
 			301 => __( 'Permanent (301)', 'external-permalinks-redux' ),
 		);
@@ -92,14 +93,16 @@ class external_permalinks_redux {
 	function action_admin_init() {
 		$post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
 
-		if ( ! is_array( $post_types ) )
+		if ( ! is_array( $post_types ) ) {
 			return;
+		}
 
-		foreach( $post_types as $post_type ) {
-			$title  = apply_filters( 'epr_metabox_title', '', $post_type );
+		foreach ( $post_types as $post_type ) {
+			$title = apply_filters( 'epr_metabox_title', '', $post_type );
 
-			if ( ! $title )
+			if ( ! $title ) {
 				$title = __( 'External Permalinks Redux', 'external-permalinks-redux' );
+			}
 
 			add_meta_box( 'external-permalinks-redux', $title, array( $this, 'meta_box' ), $post_type, 'normal' );
 
@@ -122,7 +125,7 @@ class external_permalinks_redux {
 	 */
 	function meta_box( $post ) {
 		$type = get_post_meta( $post->ID, $this->meta_key_type, true );
-	?>
+		?>
 		<p class="epr-destination">
 			<label for="epr-url"><?php _e( 'Destination Address:', 'external-permalinks-redux' ); ?></label><br />
 			<input name="<?php echo esc_attr( $this->meta_key_target ); ?>_url" class="large-text code" id="epr-url" type="text" value="<?php echo esc_url( get_post_meta( $post->ID, $this->meta_key_target, true ) ); ?>" />
@@ -136,15 +139,17 @@ class external_permalinks_redux {
 			<label for="epr-type"><?php _e( 'Redirect Type:', 'external-permalinks-redux' ); ?></label>
 			<select name="<?php echo esc_attr( $this->meta_key_target ); ?>_type" id="epr-type">
 				<option value=""><?php _e( '-- Select --', 'external-permalinks-redux' ); ?></option>
-				<?php foreach ( $this->status_codes as $status_code => $explanation ) {
+				<?php 
+				foreach ( $this->status_codes as $status_code => $explanation ) {
 					echo '<option value="' . esc_attr( $status_code ) . '"';
 					selected( $status_code, intval( $type ) );
 					echo '>' . esc_attr( $explanation ) . '</option>';
-				} ?>
+				} 
+				?>
 			</select>
 		</p>
 
-	<?php
+		<?php
 		wp_nonce_field( 'external-permalinks-redux', $this->meta_key_target . '_nonce', false );
 	}
 
@@ -161,21 +166,23 @@ class external_permalinks_redux {
 	 */
 	function action_save_post( $post_id ) {
 		if ( isset( $_POST[ $this->meta_key_target . '_nonce' ] ) && wp_verify_nonce( $_POST[ $this->meta_key_target . '_nonce' ], 'external-permalinks-redux' ) ) {
-			//Target
+			// Target
 			$url = esc_url_raw( $_POST[ $this->meta_key_target . '_url' ] );
 
-			if ( ! empty( $url ) )
+			if ( ! empty( $url ) ) {
 				update_post_meta( $post_id, $this->meta_key_target, $url );
-			else
+			} else {
 				delete_post_meta( $post_id, $this->meta_key_target, $url );
+			}
 
-			//Redirect type
+			// Redirect type
 			$type = intval( $_POST[ $this->meta_key_target . '_type' ] );
 
-			if ( ! empty( $url ) && array_key_exists( $type, $this->status_codes ) )
+			if ( ! empty( $url ) && array_key_exists( $type, $this->status_codes ) ) {
 				update_post_meta( $post_id, $this->meta_key_type, $type );
-			else
+			} else {
 				delete_post_meta( $post_id, $this->meta_key_type );
+			}
 		}
 	}
 
@@ -190,8 +197,9 @@ class external_permalinks_redux {
 	 * @return string
 	 */
 	function filter_post_permalink( $permalink, $post ) {
-		if ( $external_link = get_post_meta( $post->ID, $this->meta_key_target, true ) )
+		if ( $external_link = get_post_meta( $post->ID, $this->meta_key_target, true ) ) {
 			$permalink = $external_link;
+		}
 
 		return $permalink;
 	}
@@ -200,14 +208,15 @@ class external_permalinks_redux {
 	 * Filter page permalinks
 	 *
 	 * @param string $link
-	 * @param int $id
+	 * @param int    $id
 	 * @uses get_post_meta
 	 * @filter page_link
 	 * @return string
 	 */
 	function filter_page_link( $link, $id ) {
-		if ( $external_link = get_post_meta( $id, $this->meta_key_target, true ) )
+		if ( $external_link = get_post_meta( $id, $this->meta_key_target, true ) ) {
 			$link = $external_link;
+		}
 
 		return $link;
 	}
@@ -230,8 +239,9 @@ class external_permalinks_redux {
 			$type = intval( get_post_meta( $post->ID, $this->meta_key_type, true ) );
 			$type = apply_filters( 'epr_status_code', $type, $link, $post );
 
-			if ( ! $type )
+			if ( ! $type ) {
 				$type = 302;
+			}
 
 			wp_redirect( $link, $type );
 			exit;
