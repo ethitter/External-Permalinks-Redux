@@ -37,17 +37,17 @@ class PermalinkFilters extends WP_UnitTestCase {
 		$plugin = external_permalinks_redux::get_instance();
 
 		$this->post_id = $this->factory->post->create(
-			[
+			array(
 				'post_type' => 'post',
-			]
+			)
 		);
 
 		update_post_meta( $this->post_id, $plugin->meta_key_target, static::DESTINATION );
 
 		$this->page_id = $this->factory->post->create(
-			[
+			array(
 				'post_type' => 'page',
-			]
+			)
 		);
 
 		update_post_meta( $this->page_id, $plugin->meta_key_target, static::DESTINATION );

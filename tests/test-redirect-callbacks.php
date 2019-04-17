@@ -37,9 +37,9 @@ class RedirectCallbacks extends WP_UnitTestCase {
 	 */
 	protected function get_new_post() {
 		return $this->factory->post->create(
-			[
+			array(
 				'post_type' => 'post',
-			]
+			)
 		);
 	}
 

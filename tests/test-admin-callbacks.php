@@ -49,9 +49,9 @@ class AdminCallbacks extends WP_UnitTestCase {
 		$this->plugin = external_permalinks_redux::get_instance();
 
 		$this->post_id = $this->factory->post->create(
-			[
+			array(
 				'post_type' => 'post',
-			]
+			)
 		);
 
 		$this->nonce = wp_create_nonce( 'external-permalinks-redux' );
