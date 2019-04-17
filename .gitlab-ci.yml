@@ -32,7 +32,6 @@ PHP5.3:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
   allow_failure: true
 
@@ -43,7 +42,6 @@ PHP5.6:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
 
 PHP7.0:
@@ -53,7 +51,6 @@ PHP7.0:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
 
 PHP7.1:
@@ -63,7 +60,6 @@ PHP7.1:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
 
 PHP7.2:
@@ -73,7 +69,6 @@ PHP7.2:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
 
 PHP7.3:
