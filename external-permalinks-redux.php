@@ -230,21 +230,43 @@ class external_permalinks_redux {
 			return;
 		}
 
-		$link = get_post_meta( $post->ID, $this->meta_key_target, true );
+		$redirect = $this->get_redirect_data( $post->ID );
 
-		if ( ! empty( $link ) ) {
-			$type = (int) get_post_meta( $post->ID, $this->meta_key_type, true );
-			$type = apply_filters( 'epr_status_code', $type, $link, $post );
-
-			if ( ! $type ) {
-				$type = 302;
-			}
-
-			// Unreasonable to validate redirect destination.
-			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
-			wp_redirect( $link, $type );
-			exit;
+		if ( false === $redirect ) {
+			return;
 		}
+
+		// Unreasonable to validate redirect destination.
+		// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+		wp_redirect( $redirect['link'], $redirect['type'] );
+		exit;
+	}
+
+	/**
+	 * Retrieve redirect data for a given post ID.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return array|bool
+	 */
+	public function get_redirect_data( $post_id ) {
+		if ( ! is_numeric( $post_id ) ) {
+			return false;
+		}
+
+		$link = get_post_meta( $post_id, $this->meta_key_target, true );
+
+		if ( empty( $link ) ) {
+			return false;
+		}
+
+		$type = (int) get_post_meta( $post_id, $this->meta_key_type, true );
+		$type = apply_filters( 'epr_status_code', $type, $link, get_post( $post_id ) );
+
+		if ( ! $type ) {
+			$type = 302;
+		}
+
+		return compact( 'link', 'type' );
 	}
 }
 
