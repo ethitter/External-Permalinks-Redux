@@ -2,6 +2,7 @@ variables:
   # Configure mysql service (https://hub.docker.com/_/mysql/)
   MYSQL_DATABASE: wordpress_tests
   MYSQL_ROOT_PASSWORD: mysql
+  WP_VERSION: latest
 
 cache:
   paths:
@@ -10,7 +11,7 @@ cache:
 
 before_script:
   # Set up WordPress tests
-  - bash bin/install-wp-tests.sh $MYSQL_DATABASE root $MYSQL_ROOT_PASSWORD mysql latest true
+  - bash bin/install-wp-tests.sh $MYSQL_DATABASE root $MYSQL_ROOT_PASSWORD mysql $WP_VERSION true
 
   # PHPUnit
   - |
