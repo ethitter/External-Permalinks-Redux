@@ -21,11 +21,6 @@ before_script:
       composer global require "phpunit/phpunit=4.8.*"
     fi
 
-  # Install PHPCS and WPCS
-  - composer global require automattic/vipwpcs
-  - composer global require phpcompatibility/phpcompatibility-wp
-  - phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs,$HOME/.composer/vendor/automattic/vipwpcs,$HOME/.composer/vendor/phpcompatibility/php-compatibility,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-paragonie,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-wp
-
 PHP5.3:
   stage: test
   image: containers.ethitter.com:443/docker/images/php:5.3
@@ -88,8 +83,17 @@ PHP7.3:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
+
+PHPCS:
+  stage: test
+  image: containers.ethitter.com:443/docker/images/php:7.3
+  before_script:
+    - composer global require automattic/vipwpcs
+    - composer global require phpcompatibility/phpcompatibility-wp
+    - phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs,$HOME/.composer/vendor/automattic/vipwpcs,$HOME/.composer/vendor/phpcompatibility/php-compatibility,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-paragonie,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-wp
+  script:
+    - phpcs -n
 
 PluginSVN:
   stage: deploy
