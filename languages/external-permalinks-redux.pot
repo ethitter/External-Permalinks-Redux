@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the External Permalinks Redux package.
 msgid ""
 msgstr ""
-"Project-Id-Version: External Permalinks Redux 1.1\n"
+"Project-Id-Version: External Permalinks Redux 1.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/external-permalinks-redux\n"
-"POT-Creation-Date: 2019-04-14 05:26:23+00:00\n"
+"POT-Creation-Date: 2019-04-17 03:11:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,11 +25,11 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: external-permalinks-redux.php:77
+#: external-permalinks-redux.php:97
 msgid "Temporary (302)"
 msgstr ""
 
-#: external-permalinks-redux.php:78
+#: external-permalinks-redux.php:98
 msgid "Permanent (301)"
 msgstr ""
 
@@ -37,19 +37,19 @@ msgstr ""
 msgid "External Permalinks Redux"
 msgstr ""
 
-#: external-permalinks-redux.php:127
+#: external-permalinks-redux.php:136
 msgid "Destination Address:"
 msgstr ""
 
-#: external-permalinks-redux.php:131
+#: external-permalinks-redux.php:140
 msgid "To restore the original permalink, remove the link entered above."
 msgstr ""
 
-#: external-permalinks-redux.php:136
+#: external-permalinks-redux.php:145
 msgid "Redirect Type:"
 msgstr ""
 
-#: external-permalinks-redux.php:138
+#: external-permalinks-redux.php:147
 msgid "-- Select --"
 msgstr ""
 

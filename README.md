@@ -4,7 +4,7 @@
 **Tags:** link, redirect, external link, permalink  
 **Requires at least:** 3.0  
 **Tested up to:** 5.2  
-**Stable tag:** 1.1  
+**Stable tag:** 1.2  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -37,6 +37,11 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 
 ## Changelog ##
 
+### 1.2 ###
+* Introduce `get_redirect_data()` method to look up a post ID's redirect.
+* Introduce PHPUnit tests
+* Conform to current VIP Go Coding Standards.
+
 ### 1.1 ###
 * Introduce a filter to change the metabox title for clarity. Does break translation for that string if used.
 * Add additional HTML classes in the metabox to aid customization.
@@ -61,6 +66,9 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 * Rewrote original WordPress.com VIP plugin into a class and added support for custom post types.
 
 ## Upgrade Notice ##
+
+### 1.2 ###
+Introduces `get_redirect_data()` method along with unit tests and PHPCS cleanup.
 
 ### 1.0.4 ###
 Implements singleton pattern for instantiation. No functional changes are included in this release.
