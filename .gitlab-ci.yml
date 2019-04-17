@@ -2,6 +2,7 @@ variables:
   # Configure mysql service (https://hub.docker.com/_/mysql/)
   MYSQL_DATABASE: wordpress_tests
   MYSQL_ROOT_PASSWORD: mysql
+  WP_VERSION: latest
 
 cache:
   paths:
@@ -10,7 +11,7 @@ cache:
 
 before_script:
   # Set up WordPress tests
-  - bash bin/install-wp-tests.sh $MYSQL_DATABASE root $MYSQL_ROOT_PASSWORD mysql latest true
+  - bash bin/install-wp-tests.sh $MYSQL_DATABASE root $MYSQL_ROOT_PASSWORD mysql $WP_VERSION true
 
   # PHPUnit
   - |
@@ -20,11 +21,6 @@ before_script:
       composer global require "phpunit/phpunit=4.8.*"
     fi
 
-  # Install PHPCS and WPCS
-  - composer global require automattic/vipwpcs
-  - composer global require phpcompatibility/phpcompatibility-wp
-  - phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs,$HOME/.composer/vendor/automattic/vipwpcs,$HOME/.composer/vendor/phpcompatibility/php-compatibility,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-paragonie,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-wp
-
 PHP5.3:
   stage: test
   image: containers.ethitter.com:443/docker/images/php:5.3
@@ -32,9 +28,17 @@ PHP5.3:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
-  allow_failure: true
+
+PHP5.3:WP45:
+  stage: test
+  image: containers.ethitter.com:443/docker/images/php:5.3
+  services:
+    - mysql:5.6
+  variables:
+    WP_VERSION: '4.5'
+  script:
+    - phpunit
 
 PHP5.6:
   stage: test
@@ -43,7 +47,6 @@ PHP5.6:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
 
 PHP7.0:
@@ -53,7 +56,6 @@ PHP7.0:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
 
 PHP7.1:
@@ -63,7 +65,6 @@ PHP7.1:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
 
 PHP7.2:
@@ -73,7 +74,6 @@ PHP7.2:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
 
 PHP7.3:
@@ -83,8 +83,17 @@ PHP7.3:
     - mysql:5.6
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
-    - phpcs -n
     - phpunit
+
+PHPCS:
+  stage: test
+  image: containers.ethitter.com:443/docker/images/php:7.3
+  before_script:
+    - composer global require automattic/vipwpcs
+    - composer global require phpcompatibility/phpcompatibility-wp
+    - phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs,$HOME/.composer/vendor/automattic/vipwpcs,$HOME/.composer/vendor/phpcompatibility/php-compatibility,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-paragonie,$HOME/.composer/vendor/phpcompatibility/phpcompatibility-wp
+  script:
+    - phpcs -n
 
 PluginSVN:
   stage: deploy
