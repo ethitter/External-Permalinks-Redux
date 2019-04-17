@@ -33,7 +33,16 @@ PHP5.3:
   script:
     - find . -type "f" -iname "*.php" | xargs -L "1" php -l
     - phpunit
-  allow_failure: true
+
+PHP5.3:WP45:
+  stage: test
+  image: containers.ethitter.com:443/docker/images/php:5.3
+  services:
+    - mysql:5.6
+  variables:
+    WP_VERSION: '4.5'
+  script:
+    - phpunit
 
 PHP5.6:
   stage: test
