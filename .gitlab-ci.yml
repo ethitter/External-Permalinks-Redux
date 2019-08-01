@@ -23,6 +23,8 @@ before_script:
 
 PHP5.3:
   stage: test
+  variables:
+    WP_VERSION: '5.1'
   image: containers.ethitter.com:443/docker/images/php:5.3
   services:
     - mysql:5.6
