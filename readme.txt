@@ -3,7 +3,7 @@ Contributors: ethitter, thinkoomph
 Donate link: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux/
 Tags: link, redirect, external link, permalink
 Requires at least: 3.0
-Tested up to: 5.2
+Tested up to: 5.3
 Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
