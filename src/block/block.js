@@ -1,8 +1,5 @@
 /**
- * BLOCK: external-permalinks-redux
- *
- * Registering a basic block with Gutenberg.
- * Simple block, renders and saves the same content without any interactivity.
+ * Document panel to manage a post-object's external rediret.
  */
 
 //  Import CSS.
