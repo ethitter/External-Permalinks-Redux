@@ -149,7 +149,7 @@ class external_permalinks_redux {
 				foreach ( $this->status_codes as $status_code => $explanation ) {
 					echo '<option value="' . esc_attr( $status_code ) . '"';
 					selected( $status_code, (int) $type );
-					echo '>' . esc_attr( $explanation ) . '</option>';
+					echo '>' . esc_html( $explanation ) . '</option>';
 				}
 				?>
 			</select>
