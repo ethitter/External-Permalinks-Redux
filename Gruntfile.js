@@ -25,6 +25,10 @@ module.exports = function( grunt ) {
 					'README.md': 'readme.txt'
 				}
 			},
+			options: {
+				screenshot_url:
+					'https://git-cdn.e15r.co/wp-plugins/external-permalinks-redux/-/raw/master/.wordpress-org/{screenshot}.png',
+			},
 		},
 
 		makepot: {
