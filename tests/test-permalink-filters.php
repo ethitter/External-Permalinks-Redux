@@ -32,7 +32,7 @@ class PermalinkFilters extends WP_UnitTestCase {
 	 * Create some objects with redirects.
 	 */
 	public function set_up() {
-		parent::set_u();
+		parent::set_up();
 
 		$plugin = external_permalinks_redux::get_instance();
 
