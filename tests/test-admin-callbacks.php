@@ -83,6 +83,6 @@ class AdminCallbacks extends WP_UnitTestCase {
 		$this->plugin->action_save_post( $this->post_id );
 
 		$this->assertStringContainsString( static::DESTINATION, get_post_meta( $this->post_id, $this->plugin->meta_key_target, true ) );
-		$this->assertStringContainsString( static::TYPE, get_post_meta( $this->post_id, $this->plugin->meta_key_type, true ) );
+		$this->assertStringContainsString( (string) static::TYPE, get_post_meta( $this->post_id, $this->plugin->meta_key_type, true ) );
 	}
 }
