@@ -24,6 +24,9 @@
  * @package External_Permalinks_Redux
  */
 
+// Include block-editor class.
+require_once __DIR__ . '/inc/class-external-permalinks-redux-block-editor.php';
+
 /**
  * Class external_permalinks_redux.
  */
@@ -58,6 +61,13 @@ class external_permalinks_redux {
 	public $status_codes;
 
 	/**
+	 * Instance of the block-editor integration class.
+	 *
+	 * @var External_Permalinks_Redux_Block_Editor
+	 */
+	public $block_editor;
+
+	/**
 	 * Instantiate class as a singleton.
 	 *
 	 * @return object
@@ -82,6 +92,8 @@ class external_permalinks_redux {
 		add_filter( 'post_type_link', array( $this, 'filter_post_permalink' ), 1, 2 );
 		add_filter( 'page_link', array( $this, 'filter_page_link' ), 1, 2 );
 		add_action( 'wp', array( $this, 'action_wp' ) );
+
+		$this->block_editor = new External_Permalinks_Redux_Block_Editor();
 	}
 
 	/**
