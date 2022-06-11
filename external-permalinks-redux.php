@@ -25,7 +25,7 @@
  */
 
 // Include block-editor class.
-require_once __DIR__ . '/inc/class-external-permalinks-redux-block-editor.php';
+require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-block-editor.php';
 
 /**
  * Class external_permalinks_redux.
@@ -123,6 +123,13 @@ class external_permalinks_redux {
 		}
 
 		foreach ( $post_types as $post_type ) {
+			if (
+				function_exists( 'use_block_editor_for_post_type' )
+				&& use_block_editor_for_post_type( $post_type )
+			) {
+				return;
+			}
+
 			$title = apply_filters( 'epr_metabox_title', '', $post_type );
 
 			if ( ! $title ) {
@@ -177,6 +184,13 @@ class external_permalinks_redux {
 	 * @param int $post_id Post ID.
 	 */
 	public function action_save_post( $post_id ) {
+		if (
+			function_exists( 'use_block_editor_for_post' )
+			&& use_block_editor_for_post( $post_id )
+		) {
+			return;
+		}
+
 		if ( isset( $_POST[ $this->meta_key_target . '_nonce' ] ) && wp_verify_nonce( sanitize_text_field( $_POST[ $this->meta_key_target . '_nonce' ] ), 'external-permalinks-redux' ) ) {
 			// Target.
 			$url = isset( $_POST[ $this->meta_key_target . '_url' ] ) ? esc_url_raw( $_POST[ $this->meta_key_target . '_url' ] ) : '';
