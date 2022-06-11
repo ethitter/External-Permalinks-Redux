@@ -24,8 +24,8 @@ class RedirectCallbacks extends WP_UnitTestCase {
 	/**
 	 * Create some objects with redirects.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->plugin = external_permalinks_redux::get_instance();
 	}

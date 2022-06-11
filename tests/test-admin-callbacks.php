@@ -43,8 +43,8 @@ class AdminCallbacks extends WP_UnitTestCase {
 	/**
 	 * Create some objects with redirects.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->plugin = external_permalinks_redux::get_instance();
 
@@ -65,10 +65,10 @@ class AdminCallbacks extends WP_UnitTestCase {
 		$this->plugin->meta_box( get_post( $this->post_id ) );
 		$meta_box_contents = ob_get_clean();
 
-		$this->assertContains( 'value="' . $this->nonce . '"', $meta_box_contents );
+		$this->assertStringContainsString( 'value="' . $this->nonce . '"', $meta_box_contents );
 
 		foreach ( array_keys( $this->plugin->status_codes ) as $code ) {
-			$this->assertContains( 'value="' . $code . '"', $meta_box_contents );
+			$this->assertStringContainsString( 'value="' . $code . '"', $meta_box_contents );
 		}
 	}
 
@@ -82,7 +82,7 @@ class AdminCallbacks extends WP_UnitTestCase {
 
 		$this->plugin->action_save_post( $this->post_id );
 
-		$this->assertEquals( static::DESTINATION, get_post_meta( $this->post_id, $this->plugin->meta_key_target, true ) );
-		$this->assertEquals( static::TYPE, get_post_meta( $this->post_id, $this->plugin->meta_key_type, true ) );
+		$this->assertStringContainsString( static::DESTINATION, get_post_meta( $this->post_id, $this->plugin->meta_key_target, true ) );
+		$this->assertStringContainsString( (string) static::TYPE, get_post_meta( $this->post_id, $this->plugin->meta_key_type, true ) );
 	}
 }
