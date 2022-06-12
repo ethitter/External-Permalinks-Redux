@@ -80,8 +80,7 @@ class External_Permalinks_Redux_Block_Editor {
 			'post',
 			external_permalinks_redux::get_instance()->meta_key_type,
 			array(
-				// Matches fallback in `external_permalinks_redux::get_redirect_data()`.
-				'default'           => 302,
+				'default'           => 0,
 				'description'       => __(
 					'Redirect status code',
 					'external-permalinks-redux'
@@ -126,8 +125,32 @@ class External_Permalinks_Redux_Block_Editor {
 					'type'   => external_permalinks_redux::get_instance()->meta_key_type,
 				),
 				'postTypes'   => external_permalinks_redux::get_instance()->post_types,
-				'statusCodes' => external_permalinks_redux::get_instance()->status_codes,
+				'statusCodes' => $this->_get_status_codes(),
 			)
 		);
+	}
+
+	/**
+	 * Format status codes for use with `SelectControl` component.
+	 *
+	 * @return array
+	 */
+	protected function _get_status_codes() {
+		$codes = external_permalinks_redux::get_instance()->status_codes;
+		$formatted = [
+			[
+				'label'    => __( '-- Select --', 'external-permalinks-redux' ),
+				'value'    => 0,
+			],
+		];
+
+		foreach ( $codes as $code => $label ) {
+			$formatted[] = [
+				'label' => $label,
+				'value' => $code,
+			];
+		}
+
+		return $formatted;
 	}
 }
