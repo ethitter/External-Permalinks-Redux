@@ -80,7 +80,7 @@ class External_Permalinks_Redux_Block_Editor {
 			'post',
 			external_permalinks_redux::get_instance()->meta_key_type,
 			array(
-				// Matches fallback in `external_permalinks_redux::get_redirect_data()`
+				// Matches fallback in `external_permalinks_redux::get_redirect_data()`.
 				'default'           => 302,
 				'description'       => __(
 					'Redirect status code',
