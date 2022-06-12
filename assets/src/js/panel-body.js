@@ -22,16 +22,16 @@ const View = ( { setTarget, setType, target, type } ) => {
 					'To restore the original permalink, remove the link entered above.',
 					'external-permalinks-redux'
 				) }
+				onChange={ setTarget }
 				type="url"
 				value={ target }
-				onChange={ setTarget }
 			/>
 
 			<SelectControl
 				label={ __( 'Redirect Type:', 'external-permalinks-redux' ) }
-				options={ statusCodes }
-				selected={ type }
 				onChange={ setType }
+				options={ statusCodes }
+				value={ type }
 			/>
 		</>
 	);

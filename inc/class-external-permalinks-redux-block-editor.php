@@ -42,6 +42,7 @@ class External_Permalinks_Redux_Block_Editor {
 	 */
 	protected function _setup() {
 		add_action( 'rest_api_init', array( $this, 'register_meta' ) );
+		add_filter( 'is_protected_meta', array( $this, 'allow_meta_updates' ), 10, 3 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue' ) );
 	}
 
@@ -91,6 +92,29 @@ class External_Permalinks_Redux_Block_Editor {
 				'single'            => true,
 			)
 		);
+	}
+
+	/**
+	 * Allow meta updates from REST API.
+	 *
+	 * @param bool   $protected Whether meta is protected or not.
+	 * @param string $meta_key  Meta key.
+	 * @param string $meta_type Meta key type.
+	 * @return bool
+	 */
+	public function allow_meta_updates( $protected, $meta_key, $meta_type ) {
+		if ( 'post' !== $meta_type ) {
+			return $protected;
+		}
+
+		if (
+			$meta_key === external_permalinks_redux::get_instance()->meta_key_target
+			|| $meta_key === external_permalinks_redux::get_instance()->meta_key_type
+		) {
+			return false;
+		}
+
+		return $protected;
 	}
 
 	/**
