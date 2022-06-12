@@ -113,8 +113,8 @@ class external_permalinks_redux {
 	/**
 	 * Disallow setting private properties except via filters.
 	 *
-	 * @param string $name Property name.
-	 * @param mixed $value Property value.
+	 * @param string $name  Property name.
+	 * @param mixed  $value Property value.
 	 * @return false
 	 */
 	public function __set( $name, $value ) {
