@@ -2,7 +2,7 @@
 /**
  * Test block-editor integration.
  *
- * @pacakge External_Permalinks_Redux
+ * @package External_Permalinks_Redux
  */
 
 /**
@@ -12,6 +12,8 @@
  */
 class TestClassExternalPermalinksReduxBlockEditor extends WP_UnitTestCase {
 	/**
+	 * Test meta registration.
+	 *
 	 * @covers ::register_meta()
 	 */
 	public function test_register_meta() {
@@ -19,6 +21,8 @@ class TestClassExternalPermalinksReduxBlockEditor extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test overridding private meta editing.
+	 *
 	 * @covers ::allow_meta_updates()
 	 */
 	public function test_allow_meta_updates() {
@@ -26,6 +30,8 @@ class TestClassExternalPermalinksReduxBlockEditor extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test script enqueueing.
+	 *
 	 * @covers ::enqueue()
 	 */
 	public function test_enqueue() {
