@@ -41,7 +41,57 @@ class External_Permalinks_Redux_Block_Editor {
 	 * @return void
 	 */
 	protected function _setup() {
+		add_action( 'rest_api_init', array( $this, 'register_meta' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue' ) );
+	}
+
+	/**
+	 * Register meta for access in block editor.
+	 *
+	 * @return void
+	 */
+	public function register_meta() {
+		global $wp_version;
+
+		if (
+			! function_exists( 'register_meta' )
+			|| version_compare( $wp_version, '4.6.0', '<' )
+		) {
+			return;
+		}
+
+		register_meta(
+			'post',
+			external_permalinks_redux::get_instance()->meta_key_target,
+			array(
+				'default'           => '',
+				'description'       => __(
+					'Redirect destination',
+					'external-permalinks-redux'
+				),
+				'type'              => 'string',
+				'sanitize_callback' => 'esc_url_raw',
+				'show_in_rest'      => true,
+				'single'            => true,
+			)
+		);
+
+		register_meta(
+			'post',
+			external_permalinks_redux::get_instance()->meta_key_type,
+			array(
+				// Matches fallback in `external_permalinks_redux::get_redirect_data()`
+				'default'           => 302,
+				'description'       => __(
+					'Redirect status code',
+					'external-permalinks-redux'
+				),
+				'type'              => 'integer',
+				'sanitize_callback' => 'absint',
+				'show_in_rest'      => true,
+				'single'            => true,
+			)
+		);
 	}
 
 	/**
