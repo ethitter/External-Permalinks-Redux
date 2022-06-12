@@ -8,9 +8,7 @@
 /**
  * Class Block_Editor.
  */
-class External_Permalinks_Redux_Block_Editor {
-	use External_Permalinks_Redux_Singleton;
-
+class External_Permalinks_Redux_Block_Editor extends External_Permalinks_Redux_Singleton {
 	/**
 	 * Set up class.
 	 *

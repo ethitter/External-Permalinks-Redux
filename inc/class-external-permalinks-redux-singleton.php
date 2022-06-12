@@ -1,11 +1,11 @@
 <?php
 /**
- * Singleton trait.
+ * Singleton base class.
  *
  * @package External_Permalinks_Redux
  */
 
-trait External_Permalinks_Redux_Singleton {
+abstract class External_Permalinks_Redux_Singleton {
 	/**
 	 * Singleton!
 	 *
@@ -19,12 +19,12 @@ trait External_Permalinks_Redux_Singleton {
 	 * @return object
 	 */
 	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-			self::$instance->_setup();
+		if ( ! isset( static::$instance ) ) {
+			static::$instance = new static();
+			static::$instance->_setup();
 		}
 
-		return self::$instance;
+		return static::$instance;
 	}
 
 	/**

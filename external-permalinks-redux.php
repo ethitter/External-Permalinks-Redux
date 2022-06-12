@@ -25,7 +25,7 @@
  */
 
 // Include singleton trait used by all classes.
-require_once dirname( __FILE__ ) . '/inc/trait-singleton.php';
+require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-singleton.php';
 
 // Include block-editor class.
 require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-block-editor.php';
@@ -34,9 +34,7 @@ require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-block-e
  * Class external_permalinks_redux.
  */
 // phpcs:ignore PEAR.NamingConventions.ValidClassName, Squiz.Commenting.ClassComment.Missing
-class external_permalinks_redux {
-	use External_Permalinks_Redux_Singleton;
-
+class external_permalinks_redux extends External_Permalinks_Redux_Singleton{
 	/**
 	 * Redirect URL meta key.
 	 *
