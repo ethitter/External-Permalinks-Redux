@@ -57,7 +57,7 @@ class RedirectCallbacks extends WP_UnitTestCase {
 	}
 
 	/**
-	 * test post with custom redirect code.
+	 * Test post with custom redirect code.
 	 */
 	public function test_post_redirect_custom_status() {
 		$post_id = $this->get_new_post();
