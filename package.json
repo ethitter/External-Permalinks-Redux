@@ -1,11 +1,28 @@
 {
   "name": "external-permalinks-redux",
   "version": "0.1.0",
+  "description": "Allows you to point WordPress objects (posts, pages, custom post types) to a URL of your choosing.",
   "main": "Gruntfile.js",
   "author": "Erick Hitter",
   "devDependencies": {
+    "@wordpress/scripts": "^23.2.0",
     "grunt": "^1.5.3",
     "grunt-wp-i18n": "^1.0.3",
     "grunt-wp-readme-to-markdown": "^2.1.0"
+  },
+  "scripts": {
+    "build": "wp-scripts build",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format": "wp-scripts format",
+    "grunt": "grunt",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:md:docs": "wp-scripts lint-md-docs",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "packages-update": "wp-scripts packages-update",
+    "start": "wp-scripts start",
+    "test:e2e": "wp-scripts test-e2e",
+    "test:unit": "wp-scripts test-unit-js"
   }
 }

@@ -8,6 +8,7 @@
 .travis.yml
 .DS_Store
 Thumbs.db
+assets/src/*
 behat.yml
 bitbucket-pipelines.yml
 bin
@@ -34,3 +35,4 @@ node_modules
 *.sql
 *.tar.gz
 *.zip
+webpack.config.js
