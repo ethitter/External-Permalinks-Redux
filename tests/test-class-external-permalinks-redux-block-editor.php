@@ -105,13 +105,16 @@ class TestClassExternalPermalinksReduxBlockEditor extends WP_UnitTestCase {
 	 * @covers ::enqueue()
 	 */
 	public function test_enqueue() {
-		$asset_handle = $asset_handle = 'external-permalinks-redux';
+		$asset_handle = 'external-permalinks-redux';
 
 		$this->assertFalse(
 			wp_script_is( $asset_handle, 'enqueued' ),
 			'Failed to assert that script is not enqueued.'
 		);
 
+		remove_all_actions( 'admin_init' );
+		do_action( 'admin_init' );
+		external_permalinks_redux::get_instance()->action_admin_init();
 		External_Permalinks_Redux_Block_Editor::get_instance()->enqueue();
 
 		$this->assertTrue(
