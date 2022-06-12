@@ -3,7 +3,7 @@
  * Plugin Name: External Permalinks Redux
  * Plugin URI: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux/
  * Description: Allows users to point WordPress objects (posts, pages, custom post types) to a URL of your choosing. Inspired by and backwards-compatible with <a href="http://txfx.net/wordpress-plugins/page-links-to/">Page Links To</a> by Mark Jaquith. Written for use on WordPress.com VIP.
- * Version: 1.2
+ * Version: 1.3
  * Author: Erick Hitter & Oomph, Inc.
  * Author URI: http://www.thinkoomph.com/
  *
@@ -24,9 +24,6 @@
  * @package External_Permalinks_Redux
  */
 
-// Include singleton trait used by all classes.
-require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-singleton.php';
-
 // Include block-editor class.
 require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-block-editor.php';
 
@@ -34,7 +31,14 @@ require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-block-e
  * Class external_permalinks_redux.
  */
 // phpcs:ignore PEAR.NamingConventions.ValidClassName, Squiz.Commenting.ClassComment.Missing
-class external_permalinks_redux extends External_Permalinks_Redux_Singleton{
+class external_permalinks_redux {
+	/**
+	 * Singleton!
+	 *
+	 * @var self
+	 */
+	protected static $instance;
+
 	/**
 	 * Redirect URL meta key.
 	 *
@@ -64,6 +68,25 @@ class external_permalinks_redux extends External_Permalinks_Redux_Singleton{
 	 * @var array
 	 */
 	private $post_types;
+
+	/**
+	 * Instantiate class as a singleton.
+	 *
+	 * @return object
+	 */
+	public static function get_instance() {
+		if ( empty( self::$instance ) ) {
+			self::$instance = new self();
+			self::$instance->_setup();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Unused constructor.
+	 */
+	final private function __construct() {}
 
 	/**
 	 * Allow access to certain private properties.

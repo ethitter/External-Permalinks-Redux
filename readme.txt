@@ -4,7 +4,7 @@ Donate link: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux
 Tags: link, redirect, external link, permalink
 Requires at least: 3.0
 Tested up to: 6.0
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,9 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 
 == Changelog ==
 
+= 1.3 =
+* Introduce block-editor (Gutenberg) sidebar component for supported post types..
+
 = 1.2 =
 * Introduce `get_redirect_data()` method to look up a post ID's redirect.
 * Introduce PHPUnit tests
@@ -66,6 +69,9 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 * Rewrote original WordPress.com VIP plugin into a class and added support for custom post types.
 
 == Upgrade Notice ==
+
+= 1.3 =
+Introduces block-editor (Gutenberg) sidebar component for supported post types.
 
 = 1.2 =
 Introduces `get_redirect_data()` method along with unit tests and PHPCS cleanup.
