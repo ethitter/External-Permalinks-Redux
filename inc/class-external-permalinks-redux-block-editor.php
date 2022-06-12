@@ -66,5 +66,18 @@ class External_Permalinks_Redux_Block_Editor {
 			$asset_data['version'],
 			true
 		);
+
+		wp_localize_script(
+			$asset_handle,
+			'externalPermalinksReduxConfig',
+			array(
+				'metaKeys'    => array(
+					'target' => external_permalinks_redux::get_instance()->meta_key_target,
+					'type'   => external_permalinks_redux::get_instance()->meta_key_type,
+				),
+				'postTypes'   => external_permalinks_redux::get_instance()->post_types,
+				'statusCodes' => external_permalinks_redux::get_instance()->status_codes,
+			)
+		);
 	}
 }

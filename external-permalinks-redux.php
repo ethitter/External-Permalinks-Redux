@@ -180,18 +180,22 @@ class external_permalinks_redux {
 			return;
 		}
 
-		foreach ( $this->post_types as $post_type ) {
+		$this->post_types = array_flip( $this->post_types );
+
+		foreach ( array_keys( $this->post_types ) as $post_type ) {
+			$title = apply_filters( 'epr_metabox_title', '', $post_type );
+
+			if ( empty( $title ) ) {
+				$title = __( 'External Permalinks Redux', 'external-permalinks-redux' );
+			}
+
+			$this->post_types[ $post_type ] = $title;
+
 			if (
 				function_exists( 'use_block_editor_for_post_type' )
 				&& use_block_editor_for_post_type( $post_type )
 			) {
-				return;
-			}
-
-			$title = apply_filters( 'epr_metabox_title', '', $post_type );
-
-			if ( ! $title ) {
-				$title = __( 'External Permalinks Redux', 'external-permalinks-redux' );
+				continue;
 			}
 
 			add_meta_box( 'external-permalinks-redux', $title, array( $this, 'meta_box' ), $post_type, 'normal' );
