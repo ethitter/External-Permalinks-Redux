@@ -42,7 +42,7 @@ class PermalinkFilters extends WP_UnitTestCase {
 			)
 		);
 
-		update_post_meta( $this->post_id, $plugin->meta_key_target, static::DESTINATION );
+		update_post_meta( $this->post_id, $plugin->meta_key_target, self::DESTINATION );
 
 		$this->page_id = $this->factory->post->create(
 			array(
@@ -50,20 +50,20 @@ class PermalinkFilters extends WP_UnitTestCase {
 			)
 		);
 
-		update_post_meta( $this->page_id, $plugin->meta_key_target, static::DESTINATION );
+		update_post_meta( $this->page_id, $plugin->meta_key_target, self::DESTINATION );
 	}
 
 	/**
 	 * Test post permalink filter.
 	 */
 	public function test_post() {
-		$this->assertEquals( static::DESTINATION, get_permalink( $this->post_id ) );
+		$this->assertEquals( self::DESTINATION, get_permalink( $this->post_id ) );
 	}
 
 	/**
 	 * Test page link filter.
 	 */
 	public function test_page() {
-		$this->assertEquals( static::DESTINATION, get_page_link( $this->page_id ) );
+		$this->assertEquals( self::DESTINATION, get_page_link( $this->page_id ) );
 	}
 }

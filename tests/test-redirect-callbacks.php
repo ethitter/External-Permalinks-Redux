@@ -48,25 +48,25 @@ class RedirectCallbacks extends WP_UnitTestCase {
 	 */
 	public function test_post_redirect_default_status() {
 		$post_id = $this->get_new_post();
-		update_post_meta( $post_id, $this->plugin->meta_key_target, static::DESTINATION );
+		update_post_meta( $post_id, $this->plugin->meta_key_target, self::DESTINATION );
 
 		$redirect = $this->plugin->get_redirect_data( $post_id );
 
-		$this->assertEquals( static::DESTINATION, $redirect['link'] );
+		$this->assertEquals( self::DESTINATION, $redirect['link'] );
 		$this->assertEquals( 302, $redirect['type'] );
 	}
 
 	/**
-	 * test post with custom redirect code.
+	 * Test post with custom redirect code.
 	 */
 	public function test_post_redirect_custom_status() {
 		$post_id = $this->get_new_post();
-		update_post_meta( $post_id, $this->plugin->meta_key_target, static::DESTINATION );
+		update_post_meta( $post_id, $this->plugin->meta_key_target, self::DESTINATION );
 		update_post_meta( $post_id, $this->plugin->meta_key_type, 307 );
 
 		$redirect = $this->plugin->get_redirect_data( $post_id );
 
-		$this->assertEquals( static::DESTINATION, $redirect['link'] );
+		$this->assertEquals( self::DESTINATION, $redirect['link'] );
 		$this->assertEquals( 307, $redirect['type'] );
 	}
 

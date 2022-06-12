@@ -3,7 +3,7 @@
  * Plugin Name: External Permalinks Redux
  * Plugin URI: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux/
  * Description: Allows users to point WordPress objects (posts, pages, custom post types) to a URL of your choosing. Inspired by and backwards-compatible with <a href="http://txfx.net/wordpress-plugins/page-links-to/">Page Links To</a> by Mark Jaquith. Written for use on WordPress.com VIP.
- * Version: 1.2
+ * Version: 1.3
  * Author: Erick Hitter & Oomph, Inc.
  * Author URI: http://www.thinkoomph.com/
  *
@@ -23,6 +23,9 @@
  *
  * @package External_Permalinks_Redux
  */
+
+// Include block-editor class.
+require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-block-editor.php';
 
 /**
  * Class external_permalinks_redux.
@@ -58,22 +61,89 @@ class external_permalinks_redux {
 	public $status_codes;
 
 	/**
+	 * Supported post types.
+	 *
+	 * Cannot be used before `admin_init` hook.
+	 *
+	 * @var array
+	 */
+	private $post_types;
+
+	/**
 	 * Instantiate class as a singleton.
 	 *
 	 * @return object
 	 */
 	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
+		if ( empty( self::$instance ) ) {
 			self::$instance = new self();
+			self::$instance->_setup();
 		}
 
 		return self::$instance;
 	}
 
 	/**
+	 * Unused constructor.
+	 */
+	final private function __construct() {}
+
+	/**
+	 * Allow access to certain private properties.
+	 *
+	 * @param string $name Property name.
+	 * @return array|null
+	 */
+	public function __get( $name ) {
+		if ( 'post_types' === $name ) {
+			if ( ! did_action( 'admin_init' ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					'Cannot be used before `admin_init` hook.',
+					'1.0'
+				);
+			}
+
+			return $this->post_types;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Disallow setting private properties except via filters.
+	 *
+	 * @param string $name  Property name.
+	 * @param mixed  $value Property value.
+	 * @return false
+	 */
+	public function __set( $name, $value ) {
+		return false;
+	}
+
+	/**
+	 * Check if certain private properties are set.
+	 *
+	 * @param string $name Property name.
+	 * @return bool
+	 */
+	public function __isset( $name ) {
+		if ( 'post_types' === $name ) {
+			if ( ! did_action( 'admin_init' ) ) {
+				return false;
+			}
+
+			return is_array( $this->post_types )
+				&& ! empty( $this->post_types );
+		}
+
+		return false;
+	}
+
+	/**
 	 * Register actions and filters.
 	 */
-	private function __construct() {
+	protected function _setup() {
 		add_action( 'init', array( $this, 'action_init' ), 0 ); // Other init actions may rely on permalinks so filter early.
 		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
 		add_action( 'save_post', array( $this, 'action_save_post' ) );
@@ -104,17 +174,28 @@ class external_permalinks_redux {
 	 * Add meta box.
 	 */
 	public function action_admin_init() {
-		$post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
+		$this->post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
 
-		if ( ! is_array( $post_types ) ) {
+		if ( ! is_array( $this->post_types ) ) {
 			return;
 		}
 
-		foreach ( $post_types as $post_type ) {
+		$this->post_types = array_flip( $this->post_types );
+
+		foreach ( array_keys( $this->post_types ) as $post_type ) {
 			$title = apply_filters( 'epr_metabox_title', '', $post_type );
 
-			if ( ! $title ) {
+			if ( empty( $title ) ) {
 				$title = __( 'External Permalinks Redux', 'external-permalinks-redux' );
+			}
+
+			$this->post_types[ $post_type ] = $title;
+
+			if (
+				function_exists( 'use_block_editor_for_post_type' )
+				&& use_block_editor_for_post_type( $post_type )
+			) {
+				continue;
 			}
 
 			add_meta_box( 'external-permalinks-redux', $title, array( $this, 'meta_box' ), $post_type, 'normal' );
@@ -165,6 +246,13 @@ class external_permalinks_redux {
 	 * @param int $post_id Post ID.
 	 */
 	public function action_save_post( $post_id ) {
+		if (
+			function_exists( 'use_block_editor_for_post' )
+			&& use_block_editor_for_post( $post_id )
+		) {
+			return;
+		}
+
 		if ( isset( $_POST[ $this->meta_key_target . '_nonce' ] ) && wp_verify_nonce( sanitize_text_field( $_POST[ $this->meta_key_target . '_nonce' ] ), 'external-permalinks-redux' ) ) {
 			// Target.
 			$url = isset( $_POST[ $this->meta_key_target . '_url' ] ) ? esc_url_raw( $_POST[ $this->meta_key_target . '_url' ] ) : '';
@@ -272,6 +360,7 @@ class external_permalinks_redux {
 
 // Initialize the plugin if it hasn't already.
 external_permalinks_redux::get_instance();
+External_Permalinks_Redux_Block_Editor::get_instance();
 
 /**
  * Wrapper for meta box function.

@@ -76,13 +76,15 @@ class AdminCallbacks extends WP_UnitTestCase {
 	 * Test metabox save.
 	 */
 	public function test_save_callback() {
+		add_filter( 'use_block_editor_for_post', '__return_false' );
+
 		$_POST[ $this->plugin->meta_key_target . '_nonce' ] = $this->nonce;
-		$_POST[ $this->plugin->meta_key_target . '_url' ] = static::DESTINATION;
-		$_POST[ $this->plugin->meta_key_target . '_type' ] = static::TYPE;
+		$_POST[ $this->plugin->meta_key_target . '_url' ] = self::DESTINATION;
+		$_POST[ $this->plugin->meta_key_target . '_type' ] = self::TYPE;
 
 		$this->plugin->action_save_post( $this->post_id );
 
-		$this->assertStringContainsString( static::DESTINATION, get_post_meta( $this->post_id, $this->plugin->meta_key_target, true ) );
-		$this->assertStringContainsString( (string) static::TYPE, get_post_meta( $this->post_id, $this->plugin->meta_key_type, true ) );
+		$this->assertStringContainsString( self::DESTINATION, get_post_meta( $this->post_id, $this->plugin->meta_key_target, true ) );
+		$this->assertStringContainsString( (string) self::TYPE, get_post_meta( $this->post_id, $this->plugin->meta_key_type, true ) );
 	}
 }
