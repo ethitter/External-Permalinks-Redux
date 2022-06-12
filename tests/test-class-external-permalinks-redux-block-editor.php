@@ -137,7 +137,7 @@ class TestClassExternalPermalinksReduxBlockEditor extends WP_UnitTestCase {
 	 */
 	public function test__get_status_codes() {
 		$class      = External_Permalinks_Redux_Block_Editor::get_instance();
-		$reflection = new \ReflectionClass( $class );
+		$reflection = new ReflectionClass( $class );
 
 		$method = $reflection->getMethod( '_get_status_codes' );
 		$method->setAccessible( true );

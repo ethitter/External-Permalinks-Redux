@@ -14,10 +14,9 @@ const slug = 'external-permalinks-redux';
 /**
  * Render panel view.
  *
- * @param {Object} props Component props.
+ * @param {Object} props          Component props.
  * @param {string} props.postType Post type.
- * @returns {JSX.Element|null}
- * @constructor
+ * @return {JSX.Element|null} Sidebar panel.
  */
 const View = ( { postType } ) => {
 	if ( ! postType ) {
