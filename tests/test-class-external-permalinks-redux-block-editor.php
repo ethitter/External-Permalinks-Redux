@@ -128,4 +128,41 @@ class TestClassExternalPermalinksReduxBlockEditor extends WP_UnitTestCase {
 			'Failed to assert that configuration data is added.'
 		);
 	}
+
+	/**
+	 * Test conversion of status codes to format expected by Gutenberg's
+	 * `SelectControl` component.
+	 *
+	 * @covers ::_get_status_codes()
+	 */
+	public function test__get_status_codes() {
+		$class      = External_Permalinks_Redux_Block_Editor::get_instance();
+		$reflection = new \ReflectionClass( $class );
+
+		$method = $reflection->getMethod( '_get_status_codes' );
+		$method->setAccessible( true );
+
+		remove_all_actions( 'admin_init' );
+		do_action( 'admin_init' );
+		external_permalinks_redux::get_instance()->action_admin_init();
+
+		$this->assertEquals(
+			array(
+				array(
+					'label' => '-- Select --',
+					'value' => 0,
+				),
+				array(
+					'label' => 'Temporary (302)',
+					'value' => 302,
+				),
+				array(
+					'label' => 'Permanent (301)',
+					'value' => 301,
+				),
+			),
+			$method->invoke( $class ),
+			'Failed to assert that status codes are transformed as expected.'
+		);
+	}
 }
