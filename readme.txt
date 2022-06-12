@@ -81,3 +81,8 @@ Implements singleton pattern for instantiation. No functional changes are includ
 
 = 1.0.3 =
 Ensures that filters are available to plugins and themes. Recommended for anyone trying to hook to those filters.
+
+== Screenshots ==
+
+1. The metabox provided for the Classic Editor.
+2. The sidebar plugin provided for the Block Editor.

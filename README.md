@@ -81,3 +81,12 @@ Implements singleton pattern for instantiation. No functional changes are includ
 
 ### 1.0.3 ###
 Ensures that filters are available to plugins and themes. Recommended for anyone trying to hook to those filters.
+
+## Screenshots ##
+
+### 1. The metabox provided for the Classic Editor. ###
+![The metabox provided for the Classic Editor.](https://git-cdn.e15r.co/wp-plugins/external-permalinks-redux/-/raw/master/.wordpress-org/screenshot-1.png)
+
+### 2. The sidebar plugin provided for the Block Editor. ###
+![The sidebar plugin provided for the Block Editor.](https://git-cdn.e15r.co/wp-plugins/external-permalinks-redux/-/raw/master/.wordpress-org/screenshot-2.png)
+
