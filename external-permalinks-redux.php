@@ -24,6 +24,9 @@
  * @package External_Permalinks_Redux
  */
 
+// Include singleton trait used by all classes.
+require_once dirname( __FILE__ ) . '/inc/trait-singleton.php';
+
 // Include block-editor class.
 require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-block-editor.php';
 
@@ -32,12 +35,7 @@ require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-block-e
  */
 // phpcs:ignore PEAR.NamingConventions.ValidClassName, Squiz.Commenting.ClassComment.Missing
 class external_permalinks_redux {
-	/**
-	 * Singleton!
-	 *
-	 * @var self
-	 */
-	protected static $instance;
+	use External_Permalinks_Redux_Singleton;
 
 	/**
 	 * Redirect URL meta key.
@@ -61,29 +59,70 @@ class external_permalinks_redux {
 	public $status_codes;
 
 	/**
-	 * Instance of the block-editor integration class.
+	 * Supported post types.
 	 *
-	 * @var External_Permalinks_Redux_Block_Editor
+	 * Cannot be used before `admin_init` hook.
+	 *
+	 * @var array
 	 */
-	public $block_editor;
+	private $post_types;
 
 	/**
-	 * Instantiate class as a singleton.
+	 * Allow access to certain private properties.
 	 *
-	 * @return object
+	 * @param string $name Property name.
+	 * @return array|null
 	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
+	public function __get( $name ) {
+		if ( 'post_types' === $name ) {
+			if ( ! did_action( 'admin_init' ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					'Cannot be used before `admin_init` hook.',
+					'1.0'
+				);
+			}
+
+			return $this->post_types;
 		}
 
-		return self::$instance;
+		return null;
+	}
+
+	/**
+	 * Disallow setting private properties except via filters.
+	 *
+	 * @param string $name Property name.
+	 * @param mixed $value Property value.
+	 * @return false
+	 */
+	public function __set( $name, $value ) {
+		return false;
+	}
+
+	/**
+	 * Check if certain private properties are set.
+	 *
+	 * @param string $name Property name.
+	 * @return bool
+	 */
+	public function __isset( $name ) {
+		if ( 'post_types' === $name ) {
+			if ( ! did_action( 'admin_init' ) ) {
+				return false;
+			}
+
+			return is_array( $this->post_types )
+				&& ! empty( $this->post_types );
+		}
+
+		return false;
 	}
 
 	/**
 	 * Register actions and filters.
 	 */
-	private function __construct() {
+	protected function _setup() {
 		add_action( 'init', array( $this, 'action_init' ), 0 ); // Other init actions may rely on permalinks so filter early.
 		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
 		add_action( 'save_post', array( $this, 'action_save_post' ) );
@@ -92,8 +131,6 @@ class external_permalinks_redux {
 		add_filter( 'post_type_link', array( $this, 'filter_post_permalink' ), 1, 2 );
 		add_filter( 'page_link', array( $this, 'filter_page_link' ), 1, 2 );
 		add_action( 'wp', array( $this, 'action_wp' ) );
-
-		$this->block_editor = new External_Permalinks_Redux_Block_Editor();
 	}
 
 	/**
@@ -116,13 +153,13 @@ class external_permalinks_redux {
 	 * Add meta box.
 	 */
 	public function action_admin_init() {
-		$post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
+		$this->post_types = apply_filters( 'epr_post_types', array( 'post', 'page' ) );
 
-		if ( ! is_array( $post_types ) ) {
+		if ( ! is_array( $this->post_types ) ) {
 			return;
 		}
 
-		foreach ( $post_types as $post_type ) {
+		foreach ( $this->post_types as $post_type ) {
 			if (
 				function_exists( 'use_block_editor_for_post_type' )
 				&& use_block_editor_for_post_type( $post_type )
@@ -298,6 +335,7 @@ class external_permalinks_redux {
 
 // Initialize the plugin if it hasn't already.
 external_permalinks_redux::get_instance();
+External_Permalinks_Redux_Block_Editor::get_instance();
 
 /**
  * Wrapper for meta box function.
