@@ -10,32 +10,27 @@ const {
 	statusCodes,
 } = externalPermalinksReduxConfig;
 
-const View = ( { setTarget, setType, target, type } ) => {
-	return (
-		<>
-			<TextControl
-				label={ __(
-					'Destination Address:',
-					'external-permalinks-redux'
-				) }
-				help={ __(
-					'To restore the original permalink, remove the link entered above.',
-					'external-permalinks-redux'
-				) }
-				onChange={ setTarget }
-				type="url"
-				value={ target }
-			/>
+const View = ( { setTarget, setType, target, type } ) => (
+	<>
+		<TextControl
+			label={ __( 'Destination Address:', 'external-permalinks-redux' ) }
+			help={ __(
+				'To restore the original permalink, remove the link entered above.',
+				'external-permalinks-redux'
+			) }
+			onChange={ setTarget }
+			type="url"
+			value={ target }
+		/>
 
-			<SelectControl
-				label={ __( 'Redirect Type:', 'external-permalinks-redux' ) }
-				onChange={ setType }
-				options={ statusCodes }
-				value={ type }
-			/>
-		</>
-	);
-};
+		<SelectControl
+			label={ __( 'Redirect Type:', 'external-permalinks-redux' ) }
+			onChange={ setType }
+			options={ statusCodes }
+			value={ type }
+		/>
+	</>
+);
 
 /**
  * HOC to provide meta values and methods for updating meta.
