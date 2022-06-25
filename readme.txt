@@ -37,6 +37,9 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 
 == Changelog ==
 
+= 1.3.2 =
+* Fix translations when plugin is used with older WordPress versions.
+
 = 1.3.1 =
 * Fix translations in block editor.
 
@@ -72,6 +75,9 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 * Rewrote original WordPress.com VIP plugin into a class and added support for custom post types.
 
 == Upgrade Notice ==
+
+= 1.3.2 =
+Fixes translations when plugin is used with older WordPress versions.
 
 = 1.3.1 =
 Fixes translations in block editor.

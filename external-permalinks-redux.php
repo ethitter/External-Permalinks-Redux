@@ -3,7 +3,7 @@
  * Plugin Name: External Permalinks Redux
  * Plugin URI: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux/
  * Description: Allows users to point WordPress objects (posts, pages, custom post types) to a URL of your choosing. Inspired by and backwards-compatible with <a href="http://txfx.net/wordpress-plugins/page-links-to/">Page Links To</a> by Mark Jaquith. Written for use on WordPress.com VIP.
- * Version: 1.3.1
+ * Version: 1.3.2
  * Author: Erick Hitter & Oomph, Inc.
  * Author URI: http://www.thinkoomph.com/
  * Text Domain: external-permalinks-redux
@@ -146,6 +146,7 @@ class external_permalinks_redux {
 	 * Register actions and filters.
 	 */
 	protected function _setup() {
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_action( 'init', array( $this, 'action_init' ), 0 ); // Other init actions may rely on permalinks so filter early.
 		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
 		add_action( 'save_post', array( $this, 'action_save_post' ) );
@@ -154,6 +155,19 @@ class external_permalinks_redux {
 		add_filter( 'post_type_link', array( $this, 'filter_post_permalink' ), 1, 2 );
 		add_filter( 'page_link', array( $this, 'filter_page_link' ), 1, 2 );
 		add_action( 'wp', array( $this, 'action_wp' ) );
+	}
+
+	/**
+	 * Load plugin translations.
+	 *
+	 * @return void
+	 */
+	public function load_textdomain() {
+		load_plugin_textdomain(
+			'external-permalinks-redux',
+			false,
+			dirname( plugin_basename( __FILE__ ) ) . '/languages/'
+		);
 	}
 
 	/**
