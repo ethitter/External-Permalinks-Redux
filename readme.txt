@@ -4,7 +4,7 @@ Donate link: http://www.thinkoomph.com/plugins-modules/external-permalinks-redux
 Tags: link, redirect, external link, permalink
 Requires at least: 3.0
 Tested up to: 6.0
-Stable tag: 1.3
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 * `epr_status_codes` - modify array of available status codes used when redirect is issued
 
 == Changelog ==
+
+= 1.3.1 =
+* Fix translations in block editor.
 
 = 1.3 =
 * Introduce block-editor (Gutenberg) sidebar component for supported post types..
@@ -69,6 +72,9 @@ Using the `epr_post_types` filter, one can modify the default array of object ty
 * Rewrote original WordPress.com VIP plugin into a class and added support for custom post types.
 
 == Upgrade Notice ==
+
+= 1.3.1 =
+Fixes translations in block editor.
 
 = 1.3 =
 Introduces block-editor (Gutenberg) sidebar component for supported post types.

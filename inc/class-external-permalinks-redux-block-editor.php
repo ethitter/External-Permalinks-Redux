@@ -152,6 +152,12 @@ class External_Permalinks_Redux_Block_Editor {
 				'statusCodes' => $this->_get_status_codes(),
 			)
 		);
+
+		wp_set_script_translations(
+			$asset_handle,
+			'external-permalinks-redux',
+			dirname( dirname( __FILE__ ) ) . '/languages'
+		);
 	}
 
 	/**
