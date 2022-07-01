@@ -1,0 +1,18 @@
+{
+  "name"        : "ethitter/external-permalinks-redux",
+  "description" : "Allows you to point WordPress objects (posts, pages, custom post types) to a URL of your choosing.",
+  "homepage"    : "https://ethitter.com/",
+  "type"        : "wordpress-plugin",
+  "keywords"    : [ "link", "redirect", "external link", "permalink" ],
+  "license"     : "GPL-2.0+",
+  "authors"     : [
+    {
+      "name"     : "Erick Hitter",
+      "email"    : "wp@ethitter.com",
+      "homepage" : "https://ethitter.com/"
+    }
+  ],
+  "require" : {
+    "php" : ">=5.2.0"
+  }
+}
