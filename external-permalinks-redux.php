@@ -330,7 +330,7 @@ class external_permalinks_redux {
 	public function action_wp() {
 		global $post;
 
-		if ( ! is_singular() ) {
+		if ( ! is_singular() || empty( $post ) ) {
 			return;
 		}
 
