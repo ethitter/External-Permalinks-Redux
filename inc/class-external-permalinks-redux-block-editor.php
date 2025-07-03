@@ -129,11 +129,13 @@ class External_Permalinks_Redux_Block_Editor {
 			return;
 		}
 
+		// phpcs:ignore Modernize.FunctionCalls.Dirname.FileConstant
 		$asset_data   = require_once dirname( dirname( __FILE__ ) ) . '/assets/build/index.asset.php';
 		$asset_handle = 'external-permalinks-redux';
 
 		wp_enqueue_script(
 			$asset_handle,
+			// phpcs:ignore Modernize.FunctionCalls.Dirname.FileConstant
 			plugins_url( 'assets/build/index.js', dirname( __FILE__ ) ),
 			$asset_data['dependencies'],
 			$asset_data['version'],
@@ -156,6 +158,7 @@ class External_Permalinks_Redux_Block_Editor {
 		wp_set_script_translations(
 			$asset_handle,
 			'external-permalinks-redux',
+			// phpcs:ignore Modernize.FunctionCalls.Dirname.FileConstant
 			dirname( dirname( __FILE__ ) ) . '/languages'
 		);
 	}

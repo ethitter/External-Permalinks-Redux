@@ -14,6 +14,7 @@ if ( ! $_tests_dir ) {
 }
 
 if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo "Could not find $_tests_dir/includes/functions.php, have you run bin/install-wp-tests.sh ?" . PHP_EOL; // WPCS: XSS ok.
 	exit( 1 );
 }
@@ -25,6 +26,7 @@ require_once $_tests_dir . '/includes/functions.php';
  * Manually load the plugin being tested.
  */
 function epr__manually_load_plugin() {
+	// phpcs:ignore Modernize.FunctionCalls.Dirname.FileConstant
 	require dirname( dirname( __FILE__ ) ) . '/external-permalinks-redux.php';
 }
 tests_add_filter( 'muplugins_loaded', 'epr__manually_load_plugin' );
