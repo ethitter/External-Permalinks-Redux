@@ -3,7 +3,7 @@
 **Donate link:** http://www.thinkoomph.com/plugins-modules/external-permalinks-redux/  
 **Tags:** link, redirect, external link, permalink  
 **Requires at least:** 3.0  
-**Tested up to:** 6.0  
+**Tested up to:** 6.8  
 **Stable tag:** 1.3.2  
 **Requires PHP:** 5.2  
 **License:** GPLv2 or later  
