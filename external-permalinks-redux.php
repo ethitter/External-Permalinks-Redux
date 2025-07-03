@@ -24,9 +24,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * @package External_Permalinks_Redux
+ *
+ * @phpcs:disable Universal.Files.SeparateFunctionsFromOO.Mixed
  */
 
 // Include block-editor class.
+// phpcs:ignore Modernize.FunctionCalls.Dirname.FileConstant
 require_once dirname( __FILE__ ) . '/inc/class-external-permalinks-redux-block-editor.php';
 
 /**
