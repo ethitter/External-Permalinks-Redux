@@ -1,15 +1,15 @@
-# Copyright (C) 2025 Erick Hitter & Oomph, Inc.
+# Copyright (C) 2026 Erick Hitter & Oomph, Inc.
 # This file is distributed under the same license as the External Permalinks Redux package.
 msgid ""
 msgstr ""
 "Project-Id-Version: External Permalinks Redux 1.3.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/external-permalinks-redux\n"
-"POT-Creation-Date: 2025-07-03 22:54:33+00:00\n"
+"POT-Creation-Date: 2026-01-16 02:06:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en\n"
@@ -25,11 +25,11 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: external-permalinks-redux.php:183
+#: external-permalinks-redux.php:186
 msgid "Temporary (302)"
 msgstr ""
 
-#: external-permalinks-redux.php:184
+#: external-permalinks-redux.php:187
 msgid "Permanent (301)"
 msgstr ""
 
@@ -37,20 +37,20 @@ msgstr ""
 msgid "External Permalinks Redux"
 msgstr ""
 
-#: external-permalinks-redux.php:233
+#: external-permalinks-redux.php:236
 msgid "Destination Address:"
 msgstr ""
 
-#: external-permalinks-redux.php:237
+#: external-permalinks-redux.php:240
 msgid "To restore the original permalink, remove the link entered above."
 msgstr ""
 
-#: external-permalinks-redux.php:242
+#: external-permalinks-redux.php:245
 msgid "Redirect Type:"
 msgstr ""
 
-#: external-permalinks-redux.php:244
-#: inc/class-external-permalinks-redux-block-editor.php:172
+#: external-permalinks-redux.php:247
+#: inc/class-external-permalinks-redux-block-editor.php:175
 msgid "-- Select --"
 msgstr ""
 
